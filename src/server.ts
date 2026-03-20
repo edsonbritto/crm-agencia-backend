@@ -51,6 +51,21 @@ app.get('/api/whatsapp/status', async (req, res) => {
   }
 })
 
+
+app.get('/api/whatsapp/qr', async (req, res) => {
+  const whatsappUrl = process.env.WHATSAPP_API_URL || process.env.URL_API_DO_WHATSAPP || 'http://localhost:8080'
+  const whatsappKey = process.env.WHATSAPP_API_KEY || process.env.CHAVE_API_DO_WHATSAPP || 'meucrm123'
+  try {
+    const r = await fetch(`${whatsappUrl}/instance/connect/agencia`, {
+      headers: { 'apikey': whatsappKey }
+    })
+    const d = await r.json()
+    res.json({ base64: d.base64 || null })
+  } catch(e) {
+    res.json({ base64: null })
+  }
+})
+
 const PORT = process.env.PORT || 3001
 httpServer.listen(PORT, () => {
   console.log(`✅ API rodando na porta ${PORT}`)
