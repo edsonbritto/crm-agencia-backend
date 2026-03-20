@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Lead {
+  id        String    @id @default(cuid())
+  name      String
+  company   String?
+  phone     String
+  email     String?
+  value     Float     @default(0)
+  stage     String    @default("novo")
+  tag       String?
+  createdAt DateTime  @default(now())
+  messages  Message[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id])
+  from      String
+  text      String
+  createdAt DateTime @default(now())
+}
