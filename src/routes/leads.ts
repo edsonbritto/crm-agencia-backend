@@ -32,8 +32,8 @@ router.post('/:id/send', async (req, res) => {
   const lead = await prisma.lead.findUnique({ where: { id } })
   if (!lead || !lead.phone) return res.status(404).json({ error: 'Lead não encontrado' })
 
-  const whatsappUrl = process.env.URL_API_DO_WHATSAPP || 'http://localhost:8080'
-  const whatsappKey = process.env.CHAVE_API_DO_WHATSAPP || 'meucrm123'
+  const whatsappUrl = process.env.WHATSAPP_API_URL || process.env.URL_API_DO_WHATSAPP || 'http://localhost:8080'
+  const whatsappKey = process.env.WHATSAPP_API_KEY || process.env.CHAVE_API_DO_WHATSAPP || 'meucrm123'
 
   try {
     const response = await fetch(`${whatsappUrl}/message/sendText/agencia`, {
