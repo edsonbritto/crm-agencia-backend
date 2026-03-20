@@ -56,4 +56,14 @@ router.post('/:id/send', async (req, res) => {
   }
 })
 
+
+router.get('/:id/messages', async (req, res) => {
+  const { id } = req.params
+  const messages = await prisma.message.findMany({
+    where: { leadId: id },
+    orderBy: { createdAt: 'asc' }
+  })
+  res.json(messages)
+})
+
 export default router
